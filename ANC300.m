@@ -1,0 +1,113 @@
+
+classdef ANC300 < handle
+    properties
+        device     
+    end
+    properties (Constant)
+        baudrate = 38400
+    end
+
+    methods
+        function obj = ANC300(port)
+         obj.device = serialport(port, obj.baudrate);
+         obj.device.DataBits = 8;               
+         obj.device.StopBits = 1;               
+         obj.device.Parity = "none";
+         obj.device.Timeout = 10;
+         obj.device.FlowControl = "none";
+         configureTerminator(obj.device, "CR/LF");
+        end
+
+        function response = set_frequency(obj,Hz,axis)
+        command = ['setf ' num2str(axis) ' ' num2str(Hz)];
+        writeline(obj.device, command);
+        response = readline(obj.device);
+        disp(response); 
+        flush(obj.device);
+        end
+
+        function [cmd,freq] = get_frequency(obj,axis)
+        command = ['getf ' num2str(axis)];
+        writeline(obj.device, command);
+        cmd = readline(obj.device);
+        freq = readline(obj.device);
+        flush(obj.device)
+        end
+        
+        function set_voltage(obj,voltage, axis)
+        command = ['setv ' num2str(axis) ' ' num2str(voltage)];
+        writeline(obj.device, command);
+        response = readline(obj.device);
+        disp(response); 
+        flush(obj.device)
+        end
+        
+        function stepup(obj,steps, axis)
+        command = ['stepu ' num2str(axis) ' ' num2str(steps)];
+        writeline(obj.device, command);
+        response = readline(obj.device);
+        disp(response); 
+        end
+        
+        function stepdown(obj,steps, axis)
+        command = ['stepd ' num2str(axis) ' ' num2str(steps)];
+        writeline(obj.device, command);
+        response = readline(obj.device);
+        disp(response); 
+        end
+
+        function [cmd,volt,other] = get_voltage(obj,axis)
+        command = ['getv ' num2str(axis)];
+        writeline(obj.device, command);
+        cmd = readline(obj.device);
+        volt = readline(obj.device);
+        other = readline(obj.device);
+        flush(obj.device);
+        end
+
+        function response = stop(obj,axis)
+        command = ['stop ' num2str(axis)];
+        writeline(obj.device, command);
+        response = readline(obj.device);
+        flush(obj.device);
+        end
+
+        function set_mode(obj,mode, axis) % axis mode text gnd, inp, cap, stp, off, stp+, stp-
+        command = ['setm ' num2str(axis) ' ' mode];
+        writeline(obj.device, command);
+        response = readline(obj.device);
+        disp(response);
+        flush(obj.device);
+        end
+    end
+
+end
+% Created by Rami Lameche
+
+% % setm <AID> <AMODE> getm <AID> Set/get mode <AMODE>.
+% % setf <AID> <FRQ> getf <AID> Set/get the stepping frequency <FRQ>.
+% % setv <AID> <VOL> getv <AID> Set/get the stepping amplitude <VOL>.
+% % seta <AID> <VOL> geta <AID> Set/get the offset voltage <VOL>.
+% % setaci <AID> [on|off] getaci <AID> Set/get status of AC-IN input.
+% % setdci <AID> [on|off] getdci <AID> Set/get status of DC-IN input.
+% % setfil <AID> <FIL> getfil <AID> Set/get filter setting <FIL>.note different filter
+% % 
+% % stepu <AID> [<C>] Move <C> steps or continuously upwards (outwards). An error occurs when the axis is not in
+% % “stp” mode.
+% % stepd <AID> <C> Move number of steps or continuously downwards
+% % (inwards).
+% % stop <AID> Stop any motion.
+% % geto <AID> Return the measured output voltage.
+% % getc <AID> Return the saved capacitance value.
+% % stepw <AID> Wait for stepping to finish.
+% % capw <AID> Wait for the capacitance measurement to finish.
+
+% % <AID> axis id integer 1, 2, 3, 4, 5, 6, 7
+% % <AMODE> axis mode text gnd, inp, cap, stp, off, stp+, stp-
+% % <C> run mode text/integer c (continuous run),
+% % 1, 2, … [steps]
+% % <FRQ> frequency integer 1, 2, ... , 10000 [Hertz]
+% % <VOL> voltage float 0.000, ... , 150.000 [Volt]
+% % <TNUM> trigger number integer 1, 2, 3
+% % <FIL> filter integer 1.6, 16, 160, 1600, off
+% % (dependent on axis type) 

@@ -1,0 +1,120 @@
+
+
+% app = ANC300_GUI('COM5')
+
+new = {convertStringsToChars(volt)}
+k = char(new)
+k()
+
+
+
+
+
+
+
+
+
+% device = serialport("COM10", 38400);
+% 
+% configureTerminator(device, "CR/LF");
+% 
+% 
+% device.DataBits = 8;
+% device.Parity = "none";
+% device.StopBits = 1;
+% device.FlowControl = "none";
+% device.Timeout = 10;
+% 
+% 
+%  [volt,f,n] = get_voltage(device,2)
+%  [cmd,freq,n]= get_frequency(device,2)
+% 
+% function response = set_frequency(device,Hz,axis)
+% command = ['setf ' num2str(axis) ' ' num2str(Hz)];
+% writeline(device, command);
+% response = readline(device);
+% disp(response); 
+% end
+% 
+% function [cmd,freq] = get_frequency(device,axis)
+% command = ['getf ' num2str(axis)];
+% writeline(device, command);
+% cmd = readline(device);
+% freq = readline(device);
+% flush(device)
+% 
+% end
+% 
+% function set_voltage(device,voltage, axis)
+% command = ['setv ' num2str(axis) ' ' num2str(voltage)];
+% writeline(device, command);
+% response = readline(device);
+% disp(response); 
+% 
+% end
+% function stepup(device,steps, axis)
+% command = ['stepu ' num2str(axis) ' ' num2str(steps)];
+% writeline(device, command);
+% response = readline(device);
+% disp(response); 
+% 
+% end
+% function stepdown(device,steps, axis)
+% command = ['stepd ' num2str(axis) ' ' num2str(steps)];
+% writeline(device, command);
+% response = readline(device);
+% disp(response); 
+% 
+% end
+% function [cmd,volt,other] = get_voltage(device,axis)
+% command = ['getv ' num2str(axis)];
+% writeline(device, command);
+% cmd = readline(device);
+% volt = readline(device);
+% other = readline(device);
+% flush(device)
+% end
+% function response = stop(device,axis)
+% command = ['stop ' num2str(axis)]
+% writeline(device, command);
+% response = readline(device);
+% end
+% 
+% function set_mode(device,mode, axis) % axis mode text gnd, inp, cap, stp, off, stp+, stp-
+% command = ['setv ' num2str(axis) ' ' mode];
+% writeline(device, command);
+% response = readline(device);
+% disp(response);
+% 
+% end
+% 
+% % "frequency = 550 Hz
+% % OK"
+% 
+% % % setm <AID> <AMODE> getm <AID> Set/get mode <AMODE>.
+% % % setf <AID> <FRQ> getf <AID> Set/get the stepping frequency <FRQ>.
+% % % setv <AID> <VOL> getv <AID> Set/get the stepping amplitude <VOL>.
+% % % seta <AID> <VOL> geta <AID> Set/get the offset voltage <VOL>.
+% % % setaci <AID> [on|off] getaci <AID> Set/get status of AC-IN input.
+% % % setdci <AID> [on|off] getdci <AID> Set/get status of DC-IN input.
+% % % setfil <AID> <FIL> getfil <AID> Set/get filter setting <FIL>.note different filter
+% % % 
+% % % stepu <AID> [<C>] Move <C> steps or continuously upwards (outwards). An error occurs when the axis is not in
+% % % “stp” mode.
+% % % stepd <AID> <C> Move number of steps or continuously downwards
+% % % (inwards).
+% % % stop <AID> Stop any motion.
+% % % geto <AID> Return the measured output voltage.
+% % % getc <AID> Return the saved capacitance value.
+% % % stepw <AID> Wait for stepping to finish.
+% % % capw <AID> Wait for the capacitance measurement to finish.
+% 
+% % % <AID> axis id integer 1, 2, 3, 4, 5, 6, 7
+% % % <AMODE> axis mode text gnd, inp, cap, stp, off, stp+, stp-
+% % % <C> run mode text/integer c (continuous run),
+% % % 1, 2, … [steps]
+% % % <FRQ> frequency integer 1, 2, ... , 10000 [Hertz]
+% % % <VOL> voltage float 0.000, ... , 150.000 [Volt]
+% % % <TNUM> trigger number integer 1, 2, 3
+% % % <FIL> filter integer 1.6, 16, 160, 1600, off
+% % % (dependent on axis type) 
